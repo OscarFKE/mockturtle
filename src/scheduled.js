@@ -70,14 +70,15 @@ const readLobstersRss = (event) => {
     }
 
     newest.items.reverse().forEach(item => {
-      const { groups: { username } } = /(?<attribution>via|by) (?<username>.+)/i.exec(item.author)
+      const { groups: { attribution, username } } = /(?<attribution>via|by) (?<username>.+)/i.exec(item.author)
       const publishedAt = new Date(item.isoDate)
+      const attr = (attribution === 'by') ? 'by ' : ''
 
       if (publishedAt > lastSeen) {
         lastSeen = publishedAt
 
         event.logger.info('Broadcasting story', { itemDate: item.isoDate, itemGuid: item.guid, lastSeen })
-        event.reply(`${item.title} [${item.categories.join(' ')}] (${username}) ${item.guid}`)
+        event.reply(`${item.title} [${item.categories.join(' ')}] (${attr}${username}) ${item.guid}`)
       }
     })
 
