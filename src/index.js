@@ -21,7 +21,7 @@ const timers = {}
 
 const truncate = (inputStr, len) => {
   let shortenedStr = ''
-  shortenedStr = inputStr.slice(0, len)
+  shortenedStr = inputStr.replace(/\r?\n|\r/g, ' ').slice(0, len)
   if (shortenedStr.length < inputStr.length) {
     shortenedStr += '…'
   }
