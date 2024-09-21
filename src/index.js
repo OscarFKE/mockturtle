@@ -78,6 +78,11 @@ client.on('registered', (event) => {
     .forEach(channel => channel.join())
 })
 
+client.on('close', (event) => {
+  logger.info('Connection closed')
+  process.exit()
+})
+
 client.on('join', (event) => {
   event.logger.info('Activating scheduled tasks.')
   event.reply = (message) => client.channel(event.channel).say(message)
