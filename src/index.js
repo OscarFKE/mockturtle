@@ -101,6 +101,10 @@ client.on('leave', (event) => {
 })
 
 client.on('kick', (event) => {
+  if (config.username !== event.kicked) {
+    return
+  }
+
   event.logger.info('Deactivating scheduled tasks.', {action: 'kick'})
   timers[event.channel].map(timer => clearInterval(timer))
   delete timers[event.channel]
